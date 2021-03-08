@@ -12,6 +12,7 @@ dash-auth = "*"
 PyMySQL = "*"
 python-dotenv = "*"
 pymysql = "*"
+dash-bootstrap-components = "*"
 
 [dev-packages]
 
