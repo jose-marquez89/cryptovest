@@ -8,7 +8,7 @@ details = dbc.Col(
         html.P("Create an account and start tracking your crypto transactions free of charge."),
         dcc.Link(
             dbc.Button('Create Account', color='primary'),
-            href='#'
+            href='/login'
         )
     ],
     md=4
