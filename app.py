@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
-from pages import index
+from pages import index, login
 
 external_stylesheets = [
     dbc.themes.DARKLY,
@@ -59,5 +59,7 @@ app.title = "Crypto Investment Tracker"
 def display_page(pathname):
     if pathname == '/':
         return index.layout
+    elif pathname == '/login':
+        return login.layout
     else:
         return html.H2("Page Not Found")
