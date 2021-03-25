@@ -3,7 +3,9 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
-from pages import index, login
+from pages import index, new_account
+
+_app_route = "/"
 
 external_stylesheets = [
     dbc.themes.DARKLY,
@@ -59,7 +61,14 @@ app.title = "Crypto Investment Tracker"
 def display_page(pathname):
     if pathname == '/':
         return index.layout
-    elif pathname == '/login':
-        return login.layout
+    elif pathname == '/new-account':
+        return new_account.layout
     else:
         return html.H2("Page Not Found")
+
+@app.server.route("/submit", methods=["POST"])
+def submit_new_acc():
+    details = flask.request.form
+    username = details.get("username")
+    password = details.get("password")
+    return flask.redirect("/") 
