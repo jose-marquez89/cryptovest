@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
-from pages import index, new_account
+from pages import index, new_account, existing_account, new_account_success
 from app import app
 
 FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
@@ -57,6 +57,10 @@ def display_page(pathname):
         return index.layout
     elif pathname == '/new-account':
         return new_account.layout
+    elif pathname == '/existing-account':
+        return existing_account.layout
+    elif pathname == '/new-account-success':
+        return new_account_success.layout
     else:
         return html.H2("Page Not Found")
 
