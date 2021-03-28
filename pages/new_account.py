@@ -6,6 +6,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from app import app
+from db_users import create_new_user
+from db_model import load_engine
 
 FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 logging.basicConfig(level=logging.DEBUG, format=FORMAT)
@@ -65,5 +67,9 @@ def submit_new_acc():
     logging.debug(details)
     username = details.get("username")
     password = details.get("password")
+    
+    engine = load_engine()
+    if create_new_user(username, password) == 1:
+        return flask.redirect("/existing-account")
 
-    return flask.redirect("/") 
+    return flask.redirect("/new-account-success") 
