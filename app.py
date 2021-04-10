@@ -11,7 +11,7 @@ meta_tags = [
 ]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
-                meta_tags=meta_tags)
+                meta_tags=meta_tags, suppress_callback_exceptions=True)
 
 if __name__ == "__main__":
     app.run_server(debug=True)
