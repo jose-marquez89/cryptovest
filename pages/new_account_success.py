@@ -16,7 +16,7 @@ user_exists_card = dbc.Col(
             html.P("You've created a new account. Log in to start tracking."),
             dcc.Link(
                 dbc.Button("Log In", block=True, color="primary"),
-                href="#"
+                href="/login"
             )
         ])
     ), 
