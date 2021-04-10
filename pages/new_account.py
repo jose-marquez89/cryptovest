@@ -68,7 +68,6 @@ def submit_new_acc():
     username = details.get("username")
     password = details.get("password")
     
-    engine = load_engine()
     if create_new_user(username, password) == 1:
         return flask.redirect("/existing-account")
 
