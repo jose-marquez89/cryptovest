@@ -8,6 +8,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_model import User, Ledger, load_engine
 
+FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+
 load_dotenv()
 
 DB_UNAME = os.environ["DB_UNAME"]
@@ -35,6 +38,30 @@ def create_new_user(username, password):
         user_create_session.add(new_user)
         user_create_session.commit()
         user_create_session.close()
+
+def validate_user(username, password):
+    """Checks user entered password against database"""
+    Session = sessionmaker(bind=engine)
+    login_session = Session()
+
+    # check if the user exists and validate password
+    try:
+        existing = login_session.query(User).filter_by(name=username).one()
+
+        if password == existing.password:
+            login_session.close()
+
+            return 0
+
+        login_session.close()
+
+        return 1
+
+    except:
+        logging.debug("User was non-existent")
+        login_session.close()
+
+        return -1
 
 if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
