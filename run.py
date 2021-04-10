@@ -6,7 +6,8 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
-from pages import index, new_account, existing_account, new_account_success
+from pages import (index, new_account, existing_account, 
+    new_account_success, login)
 from app import app
 
 FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
@@ -16,7 +17,7 @@ navbar = dbc.NavbarSimple(
     brand='Crypto Investment Tracker',
     brand_href='/',
     children=[
-        dbc.NavItem(dcc.Link('Log In', href='#', className='nav-link')),
+        dbc.NavItem(dcc.Link('Log In', href='/login', className='nav-link')),
         dbc.NavItem(dcc.Link('Sign Up', href='#', className='nav-link'))
     ],
     sticky='top',
@@ -61,6 +62,8 @@ def display_page(pathname):
         return existing_account.layout
     elif pathname == '/new-account-success':
         return new_account_success.layout
+    elif pathname == '/login':
+        return login.layout
     else:
         return html.H2("Page Not Found")
 
