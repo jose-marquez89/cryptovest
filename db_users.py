@@ -5,7 +5,7 @@ import flask
 import pymysql
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, exc
 from db_model import User, Ledger, load_engine
 
 FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
@@ -62,6 +62,22 @@ def validate_user(username, password):
         login_session.close()
 
         return -1
+
+def get_user_id(logged_in_user):
+    """Gets user id for testing"""
+    Session = sessionmaker(bind=engine)
+    id_query_session = Session()
+
+    try:
+        user = id_query_session.query(User).filter_by(name=logged_in_user).one()
+        id_ = user.id
+
+        return id_
+    except exc.NoResultFound:
+
+        return    
+    
+
 
 if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
