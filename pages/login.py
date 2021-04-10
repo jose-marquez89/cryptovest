@@ -68,18 +68,10 @@ def submit_login():
     username = details.get("username")
     password = details.get("password")
     
-    engine = load_engine()
     validation = validate_user(username, password)
     if validation == 0:
         res = flask.redirect('/login-success')
         res.set_cookie('logged-in-user', username)
         return res
-    elif validation == 1:
-        return flask.jsonify({"pw": "fail"})
     else:
-        return flask.jsonify({"user": "does not exist"})
-
-@app.server.route('/login-success')
-def greet_user():
-    user = flask.request.cookies.get('logged-in-user')
-    return f"<H1>Hello {user}!</H1><p>Return to main page to continue</p>"
+        return flask.jsonify({"message": "username or password failed"})
