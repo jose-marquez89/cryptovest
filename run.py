@@ -16,10 +16,7 @@ logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 navbar = dbc.NavbarSimple(
     brand='Crypto Investment Tracker',
     brand_href='/',
-    children=[
-        dbc.NavItem(dcc.Link('Log In', href='/login', className='nav-link')),
-        dbc.NavItem(dcc.Link('Sign Up', href='#', className='nav-link'))
-    ],
+    id='site-navbar',
     sticky='top',
     color='primary',
     dark=True
@@ -68,6 +65,39 @@ def display_page(pathname):
         return login_success.layout
     else:
         return html.H2("Page Not Found")
+
+
+@app.callback(Output('site-navbar', 'children'),
+              Input('site-navbar', 'children'))
+def set_navbar(_):
+    user = flask.request.cookies.get('logged-in-user')
+
+    if user:
+        menu = [
+            dbc.NavItem(dcc.Link('Ledger', href='#', className='nav-link')),
+            dbc.NavItem(dcc.Link('Dashboard', href='#', className='nav-link')),
+            dbc.NavItem(
+                    html.Form(
+                        dbc.Button('Log Out', color=None, className='nav-link'),
+                        action='/logout', method='post'
+                    )
+                )
+        ]
+    else:
+        menu = [
+            dbc.NavItem(dcc.Link('Log In', href='/login', className='nav-link')),
+            dbc.NavItem(dcc.Link('Sign Up', href='#', className='nav-link'))
+        ]
+    
+    return menu
+
+@app.server.route("/logout", methods=['POST'])
+def logout():
+    logging.debug("logout triggered")
+    res = flask.redirect('/')
+    res.set_cookie('logged-in-user', '', expires=0)
+    return res
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
