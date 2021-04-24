@@ -37,9 +37,13 @@ class User(Base):
 class Ledger(Base):
     __tablename__ = 'ledger'
     
+    # TODO: add standardized columns based on coinbase csv
     id = Column(BigInteger, primary_key=True, nullable=False)
-    asset = Column(String(5))
+    source = Column(String(20))
+    asset = Column(String(20))
+    txn_type = Column(String(20))
     amount = Column(Float)
+    price_at_txn = Column(Float)
     user_id = Column(BigInteger, ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
